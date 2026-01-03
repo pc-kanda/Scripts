@@ -3,20 +3,21 @@ using System.Collections;
 
 public class Brick : MonoBehaviour 
 {
-	public GameManager manager;		//The GameManager
+	public GameManager manager;		// ゲーム全体を管理する GameManager
 
-	//Called whenever a trigger has entered this objects BoxCollider2D. The value 'col' is the Collider2D object that has interacted with this one
+	// 他のオブジェクトがこのオブジェクトの BoxCollider2D（Trigger）に入ったときに呼ばれる
+	// 引数 col は、このオブジェクトと衝突した Collider2D オブジェクト
 	void OnTriggerEnter2D (Collider2D col)
 	{
-		if(col.gameObject.tag == "Ball"){												//Is the tag of the colliding object 'Ball'
-			manager.score++;															//Increases the score value in the GameManager class by one
-			col.gameObject.GetComponent<Ball>().SetDirection(transform.position);		//Accesses the 'Ball' component of the object and calls the 'SetDirection()' function, sending over the brick's position
-			manager.bricks.Remove(gameObject);											//Removes this brick from the 'bricks' list in the GameManager
+		if(col.gameObject.tag == "Ball"){												// 衝突したオブジェクトのタグが「Ball」かどうか
+			manager.score++;															// GameManager クラスのスコアを 1 増やす
+			col.gameObject.GetComponent<Ball>().SetDirection(transform.position);		// Ball コンポーネントを取得し、ブロックの位置を渡して SetDirection() を呼び出す
+			manager.bricks.Remove(gameObject);											// GameManager の bricks リストからこのブロックを削除する
 
-			if(manager.bricks.Count == 0)												//Has the 'bricks' list got no more bricks in it?
-				manager.WinGame();														//Call the 'WinGame()' function in the GameManager
+			if(manager.bricks.Count == 0)												// bricks リストにブロックが残っていないか？
+				manager.WinGame();														// GameManager の WinGame() 関数を呼び出す
 
-			Destroy(gameObject);														//Destroy's the brick
+			Destroy(gameObject);														// このブロックを破壊する
 		}
 	}
 }
